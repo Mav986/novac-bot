@@ -105,3 +105,4 @@ venv.bak/
 
 # sensitive
 .config.py
+.Fleetup/fleetup_config.py
