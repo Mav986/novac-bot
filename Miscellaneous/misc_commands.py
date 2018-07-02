@@ -5,7 +5,6 @@ from Core.config import BLACKLIST
 
 class MiscBot:
     def __init__(self, slackbot):
-        self.slackbot = slackbot
 
         @slackbot.command('xkcd', help='Display an XKCD webcomic. {}'.format(XKCD_USAGE))
         def xkcd(channel, arg):

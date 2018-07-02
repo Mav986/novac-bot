@@ -29,10 +29,10 @@ slackbot = Slackbot(slack_client=slack, logger=logger)
 def ping(channel, arg):
     if arg and not arg.startswith(BLACKLIST):
         message = arg
-    elif arg.startswith(BLACKLIST):
-        message = 'Mentions are not a valid parameter.'
-    else:
+    elif not arg:
         message = 'Pong'
+    else:
+        message = 'Mentions are not a valid parameter.'
 
     return slackbot.post_message(channel, message)
 

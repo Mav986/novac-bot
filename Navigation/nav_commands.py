@@ -8,7 +8,6 @@ from Core.config import BLACKLIST
 
 class NavBot:
     def __init__(self, slackbot):
-        self.slackbot = slackbot
 
         @slackbot.command('distance', help='Show distance between 2 systems. {}'.format(DIST_USAGE))
         def distance(channel, arg):

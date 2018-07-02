@@ -1,11 +1,12 @@
 import requests
+import os
 from cachecontrol import CacheControl
 from cachecontrol.caches import FileCache
 
 from Fleetup.fleetup_config import FU_APP_URI, FU_GROUP_ID
 
 session = requests.session()
-cached_session = CacheControl(session, cache=FileCache('.webcache'))
+cached_session = CacheControl(session, cache=FileCache(os.path.dirname(__file__)))
 
 
 # TODO Test/fix lockfile permissions error
@@ -17,6 +18,7 @@ def get_doctrines():
     uri = '/'.join((FU_APP_URI, 'Doctrines', FU_GROUP_ID))
     json = get_json(uri)
 
+    print(json)
     if json and 'Data' in json:
         data = json['Data']
         names = {d['Name']: d['DoctrineId'] for d in data}
@@ -117,4 +119,5 @@ def get_json(uri):
         return res.json()
     else:
         # TODO: Handle HTTP Errors
+        print(res.status_code)
         return None
