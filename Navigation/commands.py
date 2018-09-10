@@ -1,6 +1,6 @@
-from Navigation.nav_controller import get_dotlan_map, get_jump_dist
-from Navigation.nav_config import DIST_USAGE, RANGE_USAGE
-from Core.config import BLACKLIST
+from Core._config import BLACKLIST
+from Navigation.config import DIST_USAGE, RANGE_USAGE
+from Navigation.controller import get_dotlan_map, get_jump_dist
 
 
 # TODO All these nested ifs are gross. Is there a better way?
@@ -30,7 +30,7 @@ class NavBot:
             return slackbot.post_message(channel, message)
 
         @slackbot.command('rangemap', help='Get a dotlan map showing all locations in jump range from a system. '
-                          '{}'.format(RANGE_USAGE))
+                                           '{}'.format(RANGE_USAGE))
         def rangemap(channel, arg):
             slackbot.set_typing(channel)
             if arg:

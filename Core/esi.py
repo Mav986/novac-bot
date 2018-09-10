@@ -1,20 +1,22 @@
 import json
 
 from esipy import App, EsiClient
+
+from Core import _config
 from Core.bot import logger
+
 # from esipy.cache import FileCache
 
-from Core import config
-
-esiapp = App.create(config.ESI_SWAGGER_JSON)
+esiapp = App.create(_config.ESI_SWAGGER_JSON)
 
 esiclient = EsiClient(
     # Not really sure what these do or how to solve the dependency issues
     # cache=RedisCache(Redis(config.REDIS_CACHE_HOST, port=config.REDIS_CACHE_PORT)),
     # cache=FileCache('.webcache'),
-    headers={'User-Agent': config.ESI_USER_AGENT},
+    headers={'User-Agent': _config.ESI_USER_AGENT},
     raw_body_only=True
 )
+
 
 # TODO Refactor search_type to use any category, like get_id? One method for all categories vs one method per category
 # TODO Log warning headers. Not sure how to access the header. Googled around a bit, but couldn't find anything solid

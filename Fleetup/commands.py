@@ -1,4 +1,4 @@
-import Fleetup.fleetup_controller as fleetup
+import Fleetup.controller as fleetup
 
 
 class FleetupBot:

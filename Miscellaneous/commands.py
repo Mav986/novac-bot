@@ -1,6 +1,6 @@
-from Miscellaneous.misc_controller import get_xkcd_url
-from Miscellaneous.misc_config import XKCD_USAGE
-from Core.config import BLACKLIST
+from Core._config import BLACKLIST
+from Miscellaneous.config import XKCD_USAGE
+from Miscellaneous.controller import get_xkcd_url
 
 
 class MiscBot:

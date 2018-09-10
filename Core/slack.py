@@ -1,8 +1,9 @@
 import time
 
-from Core.config import SLACK_BOT_ID, SLACK_BOT_MAX_RETRIES, SLACK_BOT_READ_DELAY
+from Core._config import SLACK_BOT_MAX_RETRIES, SLACK_BOT_READ_DELAY
 
-PREFIX = '<@{}>'.format(SLACK_BOT_ID)
+# PREFIX = '<@{}>'.format(SLACK_BOT_ID)
+PREFIX = '!'
 
 
 class Slackbot:
@@ -36,6 +37,7 @@ class Slackbot:
         :param kwargs: Possible optional args: `help`: String containing detailed help entry.
         :return: Function decorator to run command.
         """
+
         def decorator(f):
             if 'help' in kwargs:
                 self._command_help[command_name] = kwargs['help']

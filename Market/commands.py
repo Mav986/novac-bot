@@ -1,6 +1,7 @@
-import Core.esi as esi
-import Market.market_controller as market
 import numpy as np
+
+import Core.esi as esi
+import Market.controller as market
 
 hubs = [
     {'name': 'Amarr', 'region_id': 10000043, 'station_id': 60008494},

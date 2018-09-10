@@ -1,5 +1,6 @@
-import requests
 from random import randint
+
+import requests
 
 
 def get_xkcd_url(arg):

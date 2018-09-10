@@ -1,9 +1,10 @@
-from Core.config import SLACK_BOT_TOKEN, BLACKLIST
-from slackclient import SlackClient
-from Core.slack import Slackbot
-
 import logging
 import sys
+
+from slackclient import SlackClient
+
+from Core._config import SLACK_BOT_TOKEN, BLACKLIST
+from Core.slack import Slackbot
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -51,10 +52,10 @@ def help(channel, arg):
 
 
 if __name__ == '__main__':
-    from Navigation.nav_commands import NavBot
-    from Miscellaneous.misc_commands import MiscBot
-    from Market.market_commands import MarketBot
-    from Fleetup.fleetup_commands import FleetupBot
+    from Navigation.commands import NavBot
+    from Miscellaneous.commands import MiscBot
+    from Market.commands import MarketBot
+    from Fleetup.commands import FleetupBot
 
     nav_commands = NavBot(slackbot)
     misc_commands = MiscBot(slackbot)

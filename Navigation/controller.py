@@ -1,6 +1,7 @@
-from Core.esi import get_ship_info, get_system_info
 from math import sqrt
-from Navigation.nav_config import METERS_TO_LIGHT_YEARS, JUMPDRIVE, SUBCAP
+
+from Core.esi import get_ship_info, get_system_info
+from Navigation.config import METERS_TO_LIGHT_YEARS, JUMPDRIVE, SUBCAP
 
 
 def get_dotlan_map(args):
@@ -41,7 +42,7 @@ def _get_distance(system_one, system_two):
     """
     x1, y1, z1 = _get_coordinates(system_one)
     x2, y2, z2 = _get_coordinates(system_two)
-    distance_in_meters = sqrt((x2 - x1)**2 + (y2 - y1)**2 + (z2 - z1)**2)
+    distance_in_meters = sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2 + (z2 - z1) ** 2)
     distance = float(distance_in_meters * METERS_TO_LIGHT_YEARS)
 
     return distance

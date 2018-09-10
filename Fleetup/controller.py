@@ -1,12 +1,13 @@
-import requests
 import os
+
+import requests
 from cachecontrol import CacheControl
 from cachecontrol.caches import FileCache
 
-from Fleetup.fleetup_config import FU_APP_URI, FU_GROUP_ID
+from Fleetup._config import FU_APP_URI, FU_GROUP_ID
 
 session = requests.session()
-cached_session = CacheControl(session, cache=FileCache(os.path.dirname(__file__)))
+cached_session = CacheControl(session, cache=FileCache(os.path.join(os.path.dirname(__file__), '.webcache')))
 
 
 # TODO Test/fix lockfile permissions error
