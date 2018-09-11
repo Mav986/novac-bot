@@ -31,7 +31,7 @@ def ping(channel, arg):
     if arg and not arg.startswith(BLACKLIST):
         message = arg
     elif not arg:
-        message = 'Pong'
+        message = slackbot.personality_message("ping", "Pong")
     else:
         message = 'Mentions are not a valid parameter.'
 

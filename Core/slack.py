@@ -1,6 +1,8 @@
+import random
 import time
 
 from Core._config import SLACK_BOT_MAX_RETRIES, SLACK_BOT_READ_DELAY
+from Core.personalities import personalities
 
 # PREFIX = '<@{}>'.format(SLACK_BOT_ID)
 PREFIX = '!'
@@ -13,6 +15,7 @@ class Slackbot:
         self._commands = {}
         self._command_help = {}
         self._retries = 0
+        self.personality = None
 
     def run(self):
         """
@@ -46,6 +49,15 @@ class Slackbot:
 
         return decorator
 
+    def personality_message(self, command, default):
+        if not self.personality:
+            return default
+        if not "replies" in self.personality.keys():
+            return default
+        if not command in self.personality["replies"].keys():
+            return default
+        return random.choice(self.personality["replies"][command])
+
     def _handle_command(self, command, channel, arg):
         """
         Executes command function if command is registered.
@@ -55,13 +67,17 @@ class Slackbot:
         :return: Return value of the command function called.
         :raises ValueError: If a message is parsed as a command, but the command is not recognized.
         """
+        self.personality = random.choice(personalities)
         command_function = self._commands.get(command)
         if command_function:
             self._logger.info('Received command %s with arg %s in channel %s', command, arg, channel)
             return command_function(channel, arg)
         else:
             self._logger.info('Received invalid command %s', command)
-            raise ValueError('Command "{}" not recognized. `help` to show supported commands.'.format(command))
+            message = self.personality_message('unknown_command',
+                                               'Command "{}" not recognized. `help` to show supported commands.'.format(
+                                                   command))
+            raise ValueError(message)
 
     def _parse_slack_output(self, slack_rtm_output):
         """
@@ -72,7 +88,7 @@ class Slackbot:
         """
         if slack_rtm_output and len(slack_rtm_output) > 0:
             for output in slack_rtm_output:
-                if output and 'text' in output and PREFIX in output['text']:
+                if output and 'text' in output and output['text'].startswith(PREFIX):
                     text = output['text'].split(PREFIX)[1].strip()
                     tokens = text.split(' ', 1)
                     # This could be done much nicer, but it'll do for now.
@@ -93,6 +109,11 @@ class Slackbot:
         :param kwargs: Additional parameters. For full list, check chat.postMessage Slack API docs [here](https://api.slack.com/methods/chat.postMessage)
         :return: Output of the slack api call.
         """
+        if self.personality:
+            return self.slack_client.api_call("chat.postMessage", channel=channel, text=text, as_user=False,
+                                              username=self.personality.get("name", "Bot"),
+                                              icon_emoji=self.personality.get("icon_emoji", ":robot_face:"))
+
         return self.slack_client.api_call("chat.postMessage", channel=channel, text=text, as_user=as_user, **kwargs)
 
     def _auto_reconnect(self, running):
