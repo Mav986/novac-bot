@@ -9,7 +9,7 @@ from Navigation.controller import get_dotlan_map, get_jump_dist
 class NavBot:
     def __init__(self, slackbot):
 
-        @slackbot.command('distance', help='Show distance between 2 systems. {}'.format(DIST_USAGE))
+        @slackbot.command('distance', help='Show distance between 2 systems. {}'.format(DIST_USAGE), aliases=['range'])
         def distance(channel, arg):
             slackbot.set_typing(channel)
             if arg:

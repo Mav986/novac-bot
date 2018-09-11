@@ -13,6 +13,7 @@ class Slackbot:
         self.slack_client = slack_client
         self._logger = logger
         self._commands = {}
+        self._aliases = {}
         self._command_help = {}
         self._retries = 0
         self.personality = None
@@ -44,6 +45,9 @@ class Slackbot:
         def decorator(f):
             if 'help' in kwargs:
                 self._command_help[command_name] = kwargs['help']
+            if 'aliases' in kwargs and (isinstance(kwargs['aliases'], tuple) or isinstance(kwargs['aliases'], list)):
+                for alias in kwargs['aliases']:
+                    self._aliases[alias] = command_name
             self._commands[command_name] = f
             return f
 
@@ -69,6 +73,8 @@ class Slackbot:
         """
         self.personality = random.choice(personalities)
         command_function = self._commands.get(command)
+        if not command_function:
+            command_function = self._commands.get(self._aliases.get(command, ''))
         if command_function:
             self._logger.info('Received command %s with arg %s in channel %s', command, arg, channel)
             return command_function(channel, arg)

@@ -38,7 +38,7 @@ def ping(channel, arg):
     return slackbot.post_message(channel, message)
 
 
-@slackbot.command('help', help='Shows list of supported commands.')
+@slackbot.command('help', help='Shows list of supported commands.', aliases=['halp'])
 def help(channel, arg):
     if arg is None:
         message = 'Supported commands: *{}*.\n*help _command_* for detailed help.'.format(
