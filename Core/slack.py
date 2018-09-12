@@ -116,9 +116,14 @@ class Slackbot:
         :return: Output of the slack api call.
         """
         if self.personality:
-            return self.slack_client.api_call("chat.postMessage", channel=channel, text=text, as_user=False,
-                                              username=self.personality.get("name", "Bot"),
-                                              icon_emoji=self.personality.get("icon_emoji", ":robot_face:"))
+            if self.personality.get("icon_emoji"):
+                return self.slack_client.api_call("chat.postMessage", channel=channel, text=text, as_user=False,
+                                                  username=self.personality.get("name", "Bot"),
+                                                  icon_emoji=self.personality.get("icon_emoji", ":robot_face:"))
+            else:
+                return self.slack_client.api_call("chat.postMessage", channel=channel, text=text, as_user=False,
+                                                  username=self.personality.get("name", "Bot"),
+                                                  icon_url=self.personality.get("icon_url"))
 
         return self.slack_client.api_call("chat.postMessage", channel=channel, text=text, as_user=as_user, **kwargs)
 
