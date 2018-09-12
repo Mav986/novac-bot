@@ -34,6 +34,17 @@ class Slackbot:
                 self._logger.exception(e)
                 running = self._auto_reconnect(self.slack_client.rtm_connect())
 
+    def set_personality(self, member_id):
+        """
+        Set a specific user personality based on users.list. Member ID's can be found by viewing a users profile and
+        clicking the three-dots button
+        :param member_id: slack member id (U########)
+        """
+        member_list = self.slack_client.api_call("users.list")['members']
+        member = next(member for member in member_list if member.get('id') == member_id)
+        self.personality = {"name": member['profile']['real_name_normalized'],
+                            "icon_url": member['profile']['image_72']}
+
     def command(self, command_name, **kwargs):
         """
         Command decorator. Registers chat commands and their help entires.
@@ -116,9 +127,14 @@ class Slackbot:
         :return: Output of the slack api call.
         """
         if self.personality:
-            return self.slack_client.api_call("chat.postMessage", channel=channel, text=text, as_user=False,
-                                              username=self.personality.get("name", "Bot"),
-                                              icon_emoji=self.personality.get("icon_emoji", ":robot_face:"))
+            if self.personality.get("icon_emoji"):
+                return self.slack_client.api_call("chat.postMessage", channel=channel, text=text, as_user=False,
+                                                  username=self.personality.get("name", "Bot"),
+                                                  icon_emoji=self.personality.get("icon_emoji", ":robot_face:"))
+            else:
+                return self.slack_client.api_call("chat.postMessage", channel=channel, text=text, as_user=False,
+                                                  username=self.personality.get("name", "Bot"),
+                                                  icon_url=self.personality.get("icon_url"))
 
         return self.slack_client.api_call("chat.postMessage", channel=channel, text=text, as_user=as_user, **kwargs)
 

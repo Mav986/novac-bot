@@ -1,5 +1,5 @@
 from Core._config import BLACKLIST
-from Miscellaneous.config import XKCD_USAGE
+from Miscellaneous.config import XKCD_USAGE, NICE_USAGE
 from Miscellaneous.controller import get_xkcd_url
 
 
@@ -21,3 +21,9 @@ class MiscBot:
                 message = 'Invalid number of arguments. {}'.format(XKCD_USAGE)
 
             return slackbot.post_message(channel, message)
+
+        @slackbot.command('nice', help='Receive praise from the Dooster! {}'.format(NICE_USAGE))
+        def nice(channel, arg):
+            slackbot.set_typing(channel)
+            slackbot.set_personality('U6VJLPC1G')
+            return slackbot.post_message(channel, 'Nice', as_user=False)
