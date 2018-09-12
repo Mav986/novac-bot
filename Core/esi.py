@@ -1,18 +1,19 @@
 import json
+import os
 
-from esipy import App, EsiClient
+from esipy import EsiApp, EsiClient
 
 from Core import _config
 from Core.bot import logger
 
-# from esipy.cache import FileCache
+from esipy.cache import FileCache
 
-esiapp = App.create(_config.ESI_SWAGGER_JSON)
+meta_app = EsiApp()
+esiapp = meta_app.get_latest_swagger
 
 esiclient = EsiClient(
-    # Not really sure what these do or how to solve the dependency issues
-    # cache=RedisCache(Redis(config.REDIS_CACHE_HOST, port=config.REDIS_CACHE_PORT)),
-    # cache=FileCache('.webcache'),
+    retry_requests=True,
+    cache=FileCache(path=os.path.join(os.path.dirname(__file__), '.webcache')),
     headers={'User-Agent': _config.ESI_USER_AGENT},
     raw_body_only=True
 )
