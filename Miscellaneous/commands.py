@@ -25,12 +25,5 @@ class MiscBot:
         @slackbot.command('nice', help='Receive praise from the Dooster! {}'.format(NICE_USAGE))
         def nice(channel, arg):
             slackbot.set_typing(channel)
-            userlist = slackbot.slack_client.api_call("users.list")['members']
-            message = 'Nice'
-            for user_entry in userlist:
-                if 'U6VJLPC1G' in user_entry['id']:
-                    slackbot.personality = {"name": user_entry['profile']['real_name_normalized'],
-                                            "icon_url": user_entry['profile']['image_72']}
-                    return slackbot.post_message(channel, message, as_user=False)
-
-            return slackbot.post_message(channel, message)
+            slackbot.set_personality('U6VJLPC1G')
+            return slackbot.post_message(channel, 'Nice', as_user=False)
