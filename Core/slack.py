@@ -83,7 +83,8 @@ class Slackbot:
         :raises ValueError: If a message is parsed as a command, but the command is not recognized.
         """
         self.personality = random.choice(personalities)
-        command_function = self._commands.get(command.lower())
+        command = command.lower()
+        command_function = self._commands.get(command)
         if not command_function:
             command_function = self._commands.get(self._aliases.get(command, ''))
         if command_function:
