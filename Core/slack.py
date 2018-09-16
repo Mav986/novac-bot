@@ -83,7 +83,7 @@ class Slackbot:
         :raises ValueError: If a message is parsed as a command, but the command is not recognized.
         """
         self.personality = random.choice(personalities)
-        command_function = self._commands.get(command)
+        command_function = self._commands.get(command.lower())
         if not command_function:
             command_function = self._commands.get(self._aliases.get(command, ''))
         if command_function:
@@ -98,7 +98,7 @@ class Slackbot:
 
     def _parse_slack_output(self, slack_rtm_output):
         """
-        Takes the output from `SlackClient.rtm_read()`. If it is prefixed as a command (e. g. @bot-name), the command
+        Takes the output from `SlackClient.rtm_read()`. If it is prefixed as a command (e. g. !command), the command
         gets split into command name and arg and a 3-tuple of command name, argument and channel is returned.
         :param slack_rtm_output: Dictionary returned by `SlackClient.rtm_read()`
         :return: 3-tuple of command, argument and channel
