@@ -3,7 +3,7 @@ import sys
 
 from slackclient import SlackClient
 
-from Core._config import SLACK_BOT_TOKEN, BLACKLIST
+from Core._config import SLACK_BOT_TOKEN
 from Core.slack import Slackbot
 
 logger = logging.getLogger(__name__)
@@ -28,7 +28,7 @@ slackbot = Slackbot(slack_client=slack, logger=logger)
 
 @slackbot.command('ping', help='Check boss presence')
 def ping(channel, arg):
-    if arg and not arg.startswith(BLACKLIST):
+    if arg:
         message = arg
     elif not arg:
         message = slackbot.personality_message("ping", "Pong")
