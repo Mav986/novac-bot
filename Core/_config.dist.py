@@ -13,6 +13,3 @@ ESI_BASE_URL = 'https://esi.evetech.net'
 ESI_DATASOURCE = 'tranquility'
 ESI_SWAGGER_JSON = '{}/_latest/swagger.json?datasource={}'.format(ESI_BASE_URL, ESI_DATASOURCE)
 ESI_USER_AGENT = 'USER-AGENT-HERE'
-
-# Standard Globals
-BLACKLIST = '<@'
