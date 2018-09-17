@@ -1,4 +1,3 @@
-from Core._config import BLACKLIST
 from Navigation.config import DIST_USAGE, RANGE_USAGE
 from Navigation.controller import get_dotlan_map, get_jump_dist
 
@@ -14,7 +13,7 @@ class NavBot:
             slackbot.set_typing(channel)
             if arg:
                 args = arg.split(' ', 1)
-                if len(args) == 2 and not any(element.startswith(BLACKLIST) for element in args):
+                if len(args) == 2:
                     dist = get_jump_dist(args)
                     if dist and dist > 0:
                         message = args[0].upper() + ' to ' + args[1].upper() + ': ' + '{:,.2f}ly'.format(dist)
