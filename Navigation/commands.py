@@ -34,7 +34,7 @@ class NavBot:
             slackbot.set_typing(channel)
             if arg:
                 args = arg.split(' ', -1)
-                if len(args) == 3 and not any(element.startswith(BLACKLIST) for element in args):
+                if len(args):
                     url = get_dotlan_map(args)
                     if url:
                         message = url
