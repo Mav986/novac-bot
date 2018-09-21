@@ -1,6 +1,6 @@
 from math import sqrt
 
-from Core.esi import get_ship_info, get_system_info
+from Core.esi import find_type, get_system_info
 from Navigation.config import METERS_TO_LIGHT_YEARS, JUMPDRIVE, SUBCAP
 
 
@@ -12,7 +12,7 @@ def get_dotlan_map(args):
     """
     jdc = _set_jdc(args[1])
     system_info = get_system_info(args[0])
-    ship_info = get_ship_info(args[2])
+    ship_info = find_type(args[2])
     if system_info and ship_info:
         return _create_dotlan_url(ship_info, system_info, jdc)
 

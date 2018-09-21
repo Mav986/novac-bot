@@ -30,26 +30,34 @@ def get_id(name, category):
     :return: either a json object containing the something id or None
     """
     if len(name) > 2:
-        id_search = esiapp.op['get_search'](search=name, categories=category, strict=True)
-        response = esiclient.request(id_search)
-        return _check_result(response).get(category, [])
+        response = search(name, (category), True)
+        return response.get(category, [])[0]
 
     return None
 
 
-def get_ship_info(ship_name):
+def find_type(name):
     """
-    Get the information of a ship
-    :param ship_name: ship to retreive info for
-    :return: either a json object containing the ship info or None
+    Get type info by name from ESI
+    :param name: type to retreive info for
+    :return: either a json object containing the type info or None
     """
-    ship_id = get_id(ship_name, 'inventory_type')
-    if ship_id:
-        ship_search = esiapp.op['get_universe_types_type_id'](type_id=ship_id[0])
-        response = esiclient.request(ship_search)
-        return _check_result(response)
+    type_id = get_id(name, 'inventory_type')
+    if type_id:
+        return get_type(type_id)
 
     return None
+
+
+def get_type(type_id):
+    """
+    Get type info by ID from ESI
+    :param type_id: EVE type ID
+    :return: either a json object containing the type info or None
+    """
+    op = esiapp.op['get_universe_types_type_id'](type_id=type_id)
+    response = esiclient.request(op)
+    return _check_result(response)
 
 
 def get_system_info(system_name):
@@ -60,8 +68,8 @@ def get_system_info(system_name):
     """
     system_id = get_id(system_name, 'solar_system')
     if system_id:
-        system_search = esiapp.op['get_universe_systems_system_id'](system_id=system_id[0])
-        response = esiclient.request(system_search)
+        op = esiapp.op['get_universe_systems_system_id'](system_id=system_id)
+        response = esiclient.request(op)
         return _check_result(response)
 
     return None
