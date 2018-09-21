@@ -19,7 +19,6 @@ esiclient = EsiClient(
 )
 
 
-# TODO Refactor search_type to use any category, like get_id? One method for all categories vs one method per category
 # TODO Log warning headers. Not sure how to access the header. Googled around a bit, but couldn't find anything solid
 
 
@@ -74,11 +73,23 @@ def search_type(name):
     :param name: Search string
     :return: List of matching typeIDs
     """
-    op = esiapp.op['get_search'](categories=['inventory_type'], search=name)
+    result = search(name, categories=('inventory_type'))
+
+    return result.get('inventory_type', [])
+
+
+def search(search, categories=('inventory_type'), strict=False):
+    """
+    Search EVE entities
+    :param search: Term to search for
+    :param categories: List of categories to check
+    :param strict: Whether to use strict search.
+    :return:
+    """
+    op = esiapp.op['get_search'](categories=categories, search=search, strict=strict)
 
     result = esiclient.request(op)
-    return _check_result(result).get('inventory_type', [])
-
+    return _check_result(result)
 
 def names(type_list):
     """
