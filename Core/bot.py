@@ -56,10 +56,12 @@ if __name__ == '__main__':
     from Miscellaneous.commands import MiscBot
     from Market.commands import MarketBot
     from Fleetup.commands import FleetupBot
+    from Corp.commands import CorpBot
 
     nav_commands = NavBot(slackbot)
     misc_commands = MiscBot(slackbot)
     market_commands = MarketBot(slackbot)
     fleetup_commands = FleetupBot(slackbot)
+    corp_commands = CorpBot(slackbot)
 
     slackbot.run()
