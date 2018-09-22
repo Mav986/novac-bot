@@ -21,7 +21,7 @@ class MiscBot:
 
         @slackbot.command('nice', help='Receive praise from the Dooster! {}'.format(NICE_USAGE))
         def nice(channel, arg):
-            slackbot.set_personality('U6VJLPC1G')
+            slackbot.mimic_user('U6VJLPC1G')
             message = 'Nice'
 
             return slackbot.post_message(channel, message, as_user=False)
