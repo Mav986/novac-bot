@@ -1,5 +1,5 @@
-from Miscellaneous.config import *
-from Miscellaneous.controller import get_xkcd_url
+from Miscellaneous._config import *
+from Miscellaneous.controller import get_xkcd_url, get_url_from_subreddit
 import random
 
 
@@ -32,5 +32,13 @@ class MiscBot:
                 message = random.choice(EIGHTBALL_VALID_QUESTION)
             else:
                 message = random.choice(EIGHTBALL_INVALID_QUESTION)
+
+            return slackbot.post_message(channel, message)
+
+        @slackbot.command('fluff', help='Need a dose of cute? Get a random image or gif from /r/aww! {}'
+                          .format(FLUFF_USAGE))
+        def fluff(channel, arg):
+            index = random.randint(0, MAX_INDEX)
+            message = get_url_from_subreddit('aww', index)
 
             return slackbot.post_message(channel, message)
