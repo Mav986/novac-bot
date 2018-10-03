@@ -6,6 +6,7 @@ AGENT = 'NovacBot for No-Vacancies: {}'.format(CONTACT_INFO)
 REDDIT_WHITELIST = ('.gifv', '.gif', 'gfycat.com', 'i.redd.it', '.jpg', '.png', 'imgur.com')
 MAX_POSTS = 5
 MAX_INDEX = MAX_POSTS - 1
+SUBREDDIT = 'Eyebleach'
 
 # USAGE STRINGS
 XKCD_USAGE = 'Usage: *!xkcd* _OR_ *!xkcd #*'
