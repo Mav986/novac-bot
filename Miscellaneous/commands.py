@@ -39,6 +39,6 @@ class MiscBot:
                           .format(FLUFF_USAGE))
         def fluff(channel, arg):
             index = random.randint(0, MAX_INDEX)
-            message = get_url_from_subreddit('Eyebleach', index)
+            message = get_url_from_subreddit(SUBREDDIT, index)
 
             return slackbot.post_message(channel, message)
