@@ -108,6 +108,4 @@ venv.bak/
 
 # sensitive
 _config.py
-Fleetup/_config.py
-Corp/_config.py
 .webcache
