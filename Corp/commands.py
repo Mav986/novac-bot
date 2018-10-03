@@ -1,4 +1,4 @@
-from Corp._config import *
+from Corp.config import SRP_USAGE
 from Corp.controller import submit_srp, valid_lossmail, valid_character
 
 

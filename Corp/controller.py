@@ -1,5 +1,6 @@
 import requests
-from Corp._config import SRP_URL, SRP_URL_WITH_COMMENT, LOSS_FORMAT
+from Corp._config import SRP_URL, SRP_URL_WITH_COMMENT
+from Corp.config import LOSS_FORMAT
 from Core.esi import get_id
 
 
