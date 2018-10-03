@@ -1,7 +1,17 @@
+# REDDIT CONFIG
+ID = 'ID-HERE'
+SECRET = 'SECRET-HERE'
+CONTACT_INFO = 'CONTACT-INFO-HERE'
+AGENT = 'NovacBot for No-Vacancies: {}'.format(CONTACT_INFO)
+REDDIT_WHITELIST = ('.gifv', '.gif', 'gfycat.com', 'i.redd.it', '.jpg', '.png', 'imgur.com')
+MAX_POSTS = 5
+MAX_INDEX = MAX_POSTS - 1
+
 # USAGE STRINGS
 XKCD_USAGE = 'Usage: *!xkcd* _OR_ *!xkcd #*'
 NICE_USAGE = 'Usage: *really?*'
 EIGHTBALL_USAGE = 'Usage: *!8ball [question]?*'
+FLUFF_USAGE = 'Usage: *!fluff*'
 
 # MISC
 EIGHTBALL_VALID_QUESTION = [

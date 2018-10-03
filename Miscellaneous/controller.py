@@ -3,7 +3,7 @@ from random import randint
 import praw
 import requests
 
-from Miscellaneous._config import SECRET, AGENT, ID, REDDIT_BLACKLIST, MAX_POSTS, MAX_INDEX
+from Miscellaneous._config import SECRET, AGENT, ID, REDDIT_WHITELIST, MAX_POSTS, MAX_INDEX
 
 reddit = praw.Reddit(client_id=ID, client_secret=SECRET, user_agent=AGENT)
 
@@ -31,7 +31,7 @@ def get_url_from_subreddit(subreddit_name, index):
         posts = [post for post in subreddit.new(limit=MAX_POSTS)]
         submission = posts[index % MAX_INDEX]
         index += 1
-        if not submission.is_self and not any(s in submission.url for s in REDDIT_BLACKLIST):
+        if not submission.is_self and any(s in submission.url for s in REDDIT_WHITELIST):
             break
 
     return submission.url

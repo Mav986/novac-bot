@@ -35,10 +35,10 @@ class MiscBot:
 
             return slackbot.post_message(channel, message)
 
-        @slackbot.command('fluff', help='Need a dose of cute? Get a random image or gif from /r/aww! {}'
+        @slackbot.command('fluff', help='Need a dose of diabetes? Get a random image or gif from /r/Eyebleach! {}'
                           .format(FLUFF_USAGE))
         def fluff(channel, arg):
             index = random.randint(0, MAX_INDEX)
-            message = get_url_from_subreddit('aww', index)
+            message = get_url_from_subreddit('Eyebleach', index)
 
             return slackbot.post_message(channel, message)
