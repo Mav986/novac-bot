@@ -7,7 +7,7 @@ class MiscBot:
     def __init__(self, slackbot):
 
         @slackbot.command('xkcd', help='Display an XKCD webcomic. {}'.format(XKCD_USAGE))
-        def xkcd(channel, arg):
+        def xkcd(channel, arg, user):
             if arg:
                 args = arg.split(' ', -1)
                 if len(args) == 1:
@@ -20,14 +20,14 @@ class MiscBot:
             return slackbot.post_message(channel, message)
 
         @slackbot.command('nice', help='Receive praise from the Dooster! {}'.format(NICE_USAGE))
-        def nice(channel, arg):
+        def nice(channel, arg, user):
             slackbot.mimic_user('U6VJLPC1G')
             message = 'Nice'
 
             return slackbot.post_message(channel, message, as_user=False)
 
         @slackbot.command('8ball', help='Need an answer to a yes or no question quickly? {}'.format(EIGHTBALL_USAGE))
-        def eightball(channel, arg):
+        def eightball(channel, arg, user):
             if arg.endswith('?'):
                 message = random.choice(EIGHTBALL_VALID_QUESTION)
             else:

@@ -4,14 +4,15 @@ from Corp.config import BASE_URL, LOSS_FORMAT
 from Core.esi import get_id
 
 
-def submit_srp(name, url, extra=None):
+def submit_srp(name, url, submitted_by, extra=None):
     params = {
         'usp': 'pp_url',
         ENTRIES['name']: name,
-        ENTRIES['killmail_url']: url}
+        ENTRIES['killmail_url']: url,
+        ENTRIES['extra_info']: submitted_by}
     if extra:
         extra = extra.strip()
-        params[ENTRIES['extra_info']] = extra
+        params[ENTRIES['extra_info']] += ': ' + extra
 
     requests.post(BASE_URL, params=params)
 

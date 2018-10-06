@@ -14,7 +14,7 @@ class MarketBot:
     def __init__(self, slackbot):
 
         @slackbot.command('price', help='Get lowest sell price in Jita 4-4')
-        def price(channel, arg):
+        def price(channel, arg, user):
             slackbot.set_typing(channel)
             if arg:
                 types = []
@@ -39,7 +39,7 @@ class MarketBot:
             return slackbot.post_message(channel, message)
 
         @slackbot.command('pricehub', help='Get Prices in market hubs')
-        def pricehub(channel, arg):
+        def pricehub(channel, arg, user):
             slackbot.set_typing(channel)
             if arg:
                 types = []

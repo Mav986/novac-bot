@@ -6,17 +6,18 @@ class CorpBot:
     def __init__(self, slackbot):
 
         @slackbot.command('srp', help='Submit for SRP from within slack. {}'.format(SRP_USAGE))
-        def srp(channel, arg):
+        def srp(channel, arg, user):
             try:
                 args = arg.split(",", 2)
                 url = args[1].strip().replace('<', '').replace('>', '')
                 loss_valid = valid_lossmail(url)
                 character_valid = valid_character(args[0])
+                submitted_by = 'Submitted by ' + user['name']
                 if loss_valid and character_valid:
                     if len(args) == 3:
-                        submit_srp(args[0], url, args[2])
+                        submit_srp(args[0], url, submitted_by, args[2])
                     else:
-                        submit_srp(args[0], url)
+                        submit_srp(args[0], url, submitted_by)
                     message = "SRP submitted."
                 elif not loss_valid:
                     message = 'Invalid lossmail, please try again.'.format(SRP_USAGE)
