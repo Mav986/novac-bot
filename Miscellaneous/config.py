@@ -28,3 +28,14 @@ EIGHTBALL_INVALID_QUESTION = [
     'Cmon, you can do better than that.',
     'I\'m an 8ball, not a translator.'
 ]
+
+DOOSTER_PHRASES = [
+    'Nice',
+    'Get lit',
+    ':350:',
+    'What happened?',
+    'P gud p gud',
+    'Tama. Tama tama tama. Tama?',
+    'Sorry for feed',
+    'Mhm'
+]
