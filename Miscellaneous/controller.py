@@ -1,4 +1,4 @@
-from random import randint
+import random
 import requests
 from Miscellaneous._config import DOOSTER_PHRASES
 
@@ -15,10 +15,10 @@ def get_xkcd_url(arg):
     if arg.isdigit() and 0 < int(arg) <= max_url:
         return 'https://xkcd.com/{comic_num}'.format(comic_num=arg)
     elif arg == 'random':
-        return 'https://xkcd.com/{comic_num}'.format(comic_num=randint(1, max_url))
+        return 'https://xkcd.com/{comic_num}'.format(comic_num=random.randint(1, max_url))
     else:
         return 'Invalid webcomic. Try again with an integer between 1 and ' + str(max_url)
 
 
 def get_dustey_phrase():
-    return DOOSTER_PHRASES[randint(0, len(DOOSTER_PHRASES))]
+    return random.choice(DOOSTER_PHRASES)
