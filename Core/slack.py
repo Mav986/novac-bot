@@ -131,11 +131,13 @@ class Slackbot:
             if self.personality.get("icon_url"):
                 return self.slack_client.api_call("chat.postMessage", channel=channel, text=text, as_user=False,
                                                   username=self.personality.get("name", "Bot"),
-                                                  icon_url=self.personality.get("icon_url"))
+                                                  icon_url=self.personality.get("icon_url")
+                                                  **kwargs)
             else:
                 return self.slack_client.api_call("chat.postMessage", channel=channel, text=text, as_user=False,
                                                   username=self.personality.get("name", "Bot"),
-                                                  icon_emoji=self.personality.get("icon_emoji", ":robot_face:"))
+                                                  icon_emoji=self.personality.get("icon_emoji", ":robot_face:"),
+                                                  **kwargs)
 
         return self.slack_client.api_call("chat.postMessage", channel=channel, text=text, as_user=as_user, **kwargs)
 

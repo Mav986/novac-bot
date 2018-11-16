@@ -2,6 +2,7 @@
 XKCD_USAGE = 'Usage: *!xkcd* _OR_ *!xkcd #*'
 NICE_USAGE = 'Usage: *really?*'
 EIGHTBALL_USAGE = 'Usage: *!8ball [question]?*'
+STATUS_USAGE = 'Usage: !status or !status sisi'
 
 # MISC
 EIGHTBALL_VALID_QUESTION = [

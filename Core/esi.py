@@ -109,6 +109,14 @@ def get_sell_orders(types, region_id=10000002):
     return results_json
 
 
+def get_status(datasource='tranquility'):
+    op = esiapp.op['get_status'](datasource=datasource)
+
+    result = esiclient.request(op)
+
+    return _check_result(result)
+
+
 def _check_result(result):
     """
     Check if an ESI result is valid

@@ -1,5 +1,5 @@
 from Miscellaneous.config import *
-from Miscellaneous.controller import get_xkcd_url
+from Miscellaneous.controller import get_xkcd_url, get_server_status
 import random
 
 
@@ -34,3 +34,14 @@ class MiscBot:
                 message = random.choice(EIGHTBALL_INVALID_QUESTION)
 
             return slackbot.post_message(channel, message)
+
+        @slackbot.command('status', help="EVE Server status. {}".format(STATUS_USAGE))
+        def status(channel, arg):
+            if arg == 'sisi':
+                result = get_server_status('singularity')
+            else:
+                result = get_server_status()
+
+            print(result)
+
+            return slackbot.post_message(channel, '', attachments=[result])
