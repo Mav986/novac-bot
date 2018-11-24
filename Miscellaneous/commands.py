@@ -1,5 +1,5 @@
-from Miscellaneous.config import *
-from Miscellaneous.controller import get_xkcd_url
+from Miscellaneous._config import *
+from Miscellaneous.controller import get_xkcd_url, get_wormhole_stats
 import random
 
 
@@ -32,5 +32,25 @@ class MiscBot:
                 message = random.choice(EIGHTBALL_VALID_QUESTION)
             else:
                 message = random.choice(EIGHTBALL_INVALID_QUESTION)
+
+            return slackbot.post_message(channel, message)
+
+        @slackbot.command('wh', help='Find information on a wormhole type! {}'.format(WH_USAGE), aliases=['wormhole'])
+        def wormhole(channel, arg):
+            if arg:
+                wormhole_id = arg.upper()
+                if wormhole_id == 'K162':
+                    message = K162ERROR
+                else:
+                    wh_info = get_wormhole_stats(wormhole_id)
+                    if wh_info:
+                        message = WORMHOLE_ATTR.format(wormhole_id=wormhole_id, leads_to=wh_info["leadsTo"],
+                                                       jump_mass=wh_info["jumpMass"],
+                                                       total_mass=wh_info["totalMass"],
+                                                       lifetime=wh_info["maxLifetime"])
+                    else:
+                        message = "Wormhole type not found"
+            else:
+                message = "Must supply wormhole ID {}".format(WH_USAGE)
 
             return slackbot.post_message(channel, message)
