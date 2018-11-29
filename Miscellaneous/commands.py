@@ -21,8 +21,9 @@ class MiscBot:
 
 
         @slackbot.command('dooster', help='Ask the Dooster a question! {}'.format(NICE_USAGE))
-        def dooster(channel, arg):
+        def dooster(channel, arg, user):
             slackbot.set_personality('U6VJLPC1G')
+            message = get_dustey_phrase()
 
             return slackbot.post_message(channel, message, as_user=False)
 
@@ -37,7 +38,7 @@ class MiscBot:
             return slackbot.post_message(channel, message)
 
         @slackbot.command('wh', help='Find information on a wormhole type! {}'.format(WH_USAGE), aliases=['wormhole'])
-        def wormhole(channel, arg):
+        def wormhole(channel, arg, user):
             if arg:
                 wormhole_id = arg.upper()
                 if wormhole_id == 'K162':
