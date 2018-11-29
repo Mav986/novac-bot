@@ -9,7 +9,7 @@ class NavBot:
     def __init__(self, slackbot):
 
         @slackbot.command('distance', help='Show distance between 2 systems. {}'.format(DIST_USAGE), aliases=['range'])
-        def distance(channel, arg):
+        def distance(channel, arg, user):
             slackbot.set_typing(channel)
             if arg:
                 args = arg.split(' ', 1)
@@ -30,7 +30,7 @@ class NavBot:
 
         @slackbot.command('rangemap', help='Get a dotlan map showing all locations in jump range from a system. '
                                            '{}'.format(RANGE_USAGE))
-        def rangemap(channel, arg):
+        def rangemap(channel, arg, user):
             slackbot.set_typing(channel)
             if arg:
                 args = arg.split(' ', -1)

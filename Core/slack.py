@@ -34,7 +34,7 @@ class Slackbot:
                 self._logger.exception(e)
                 running = self._auto_reconnect(self.slack_client.rtm_connect())
 
-    def set_personality(self, member_id):
+    def mimic_user(self, member_id):
         """
         Set a specific user personality based on users.list. Member ID's can be found by viewing a users profile and
         clicking the three-dots button
@@ -73,7 +73,7 @@ class Slackbot:
             return default
         return random.choice(self.personality["replies"][command])
 
-    def _handle_command(self, command, channel, arg):
+    def _handle_command(self, command, channel, arg, user):
         """
         Executes command function if command is registered.
         :param command: Name of the command
@@ -89,7 +89,7 @@ class Slackbot:
             command_function = self._commands.get(self._aliases.get(command, ''))
         if command_function:
             self._logger.info('Received command %s with arg %s in channel %s', command, arg, channel)
-            return command_function(channel, arg)
+            return command_function(channel, arg, user)
         else:
             self._logger.info('Received invalid command %s', command)
             message = self.personality_message('unknown_command',
@@ -115,8 +115,8 @@ class Slackbot:
                         command, arg = tokens[0], tokens[1]
                     else:
                         command, arg = tokens[0], None
-                    return command, arg, output['channel']
-        return None, None, None
+                    return command, arg, output['channel'], output['user']
+        return None, None, None, None
 
     def post_message(self, channel, text, as_user=True, **kwargs):
         """
@@ -172,11 +172,12 @@ class Slackbot:
         Parse slack output and trigger command handling if message looks like a command.
         :return: Return of command function or post message if command not recognized.
         """
-        command, arg, channel = self._parse_slack_output(self.slack_client.rtm_read())
+        command, arg, channel, user_id = self._parse_slack_output(self.slack_client.rtm_read())
 
         if command and channel:
             try:
-                return self._handle_command(command, channel, arg)
+                user = self._get_user(user_id)
+                return self._handle_command(command, channel, arg, user)
             except ValueError as e:
                 # ValueError if message looks like a command but command isn't recognized.
                 return self.post_message(channel, str(e))
