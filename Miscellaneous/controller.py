@@ -1,6 +1,6 @@
 import random
 import requests
-from Miscellaneous._config import DOOSTER_PHRASES
+from Miscellaneous.config import DOOSTER_PHRASES
 
 
 def get_xkcd_url(arg):
