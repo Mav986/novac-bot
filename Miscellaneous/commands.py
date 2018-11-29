@@ -1,4 +1,4 @@
-from Miscellaneous._config import *
+from Miscellaneous.config import *
 from Miscellaneous.controller import get_xkcd_url, get_wormhole_stats
 import random
 

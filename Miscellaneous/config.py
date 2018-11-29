@@ -30,10 +30,17 @@ EIGHTBALL_INVALID_QUESTION = [
     'I\'m an 8ball, not a translator.'
 ]
 
-MASS_CATEGORIES = {
+K162ERROR = "_Have you become trapped?_ :ghost:"
+WORMHOLE_ATTR = "*{wormhole_id}* leads to _{leads_to}_\n" \
+                "*Size*: {jump_mass}\n" \
+                "*Total Mass*: {total_mass} kg\n" \
+                "*Lifetime*: {lifetime}h"
+
+JUMP_MASS_CATEGORIES = {
     5000000: "Small",
     20000000: "Medium",
     300000000: "Large",
+    1000000000: "Freighter",
     1350000000: "Very Large",
     1800000000: "Very Large"
 }

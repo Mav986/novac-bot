@@ -1,6 +1,6 @@
 from random import randint
 import requests
-from Miscellaneous._config import JUMP_MASS_CATEGORIES
+from Miscellaneous.config import JUMP_MASS_CATEGORIES
 from Miscellaneous.wormhole_data import WORMHOLE_IDS
 
 
