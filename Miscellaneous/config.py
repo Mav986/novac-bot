@@ -2,6 +2,7 @@
 XKCD_USAGE = 'Usage: *!xkcd* _OR_ *!xkcd #*'
 NICE_USAGE = 'Usage: *really?*'
 EIGHTBALL_USAGE = 'Usage: *!8ball [question]?*'
+WH_USAGE = 'Usage: *!wh X###* eg. !wh H296'
 
 # MISC
 EIGHTBALL_VALID_QUESTION = [
@@ -29,6 +30,7 @@ EIGHTBALL_INVALID_QUESTION = [
     'I\'m an 8ball, not a translator.'
 ]
 
+
 DOOSTER_PHRASES = [
     'Nice',
     'Get lit',
@@ -39,3 +41,22 @@ DOOSTER_PHRASES = [
     'Sorry for feed',
     'Mhm'
 ]
+
+
+K162ERROR = "_Have you become trapped?_ :ghost:"
+
+
+WORMHOLE_ATTR = "*{wormhole_id}* leads to _{leads_to}_\n" \
+                "*Size*: {jump_mass}\n" \
+                "*Total Mass*: {total_mass} kg\n" \
+                "*Lifetime*: {lifetime}h"
+
+
+JUMP_MASS_CATEGORIES = {
+    5000000: "Small",
+    20000000: "Medium",
+    300000000: "Large",
+    1000000000: "Freighter",
+    1350000000: "Very Large",
+    1800000000: "Very Large"
+}
