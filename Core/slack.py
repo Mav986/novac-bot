@@ -106,7 +106,7 @@ class Slackbot:
         """
         if slack_rtm_output and len(slack_rtm_output) > 0:
             for output in slack_rtm_output:
-                if output and 'text' in output and output['text'].startswith(PREFIX):
+                if output and 'text' in output and output['text'].strip().startswith(PREFIX):
                     text = output['text'].split(PREFIX)[1].strip()
                     tokens = text.split(' ', 1)
                     # This could be done much nicer, but it'll do for now.
