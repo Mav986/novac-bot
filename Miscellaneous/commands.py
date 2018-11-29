@@ -1,5 +1,5 @@
 from Miscellaneous.config import *
-from Miscellaneous.controller import get_xkcd_url, get_wormhole_stats
+from Miscellaneous.controller import get_xkcd_url, get_dustey_phrase, get_wormhole_stats
 import random
 
 
@@ -19,10 +19,10 @@ class MiscBot:
 
             return slackbot.post_message(channel, message)
 
-        @slackbot.command('nice', help='Receive praise from the Dooster! {}'.format(NICE_USAGE))
-        def nice(channel, arg):
+        @slackbot.command('dooster', help='Ask the Dooster a question! {}'.format(NICE_USAGE))
+        def dooster(channel, arg):
             slackbot.set_personality('U6VJLPC1G')
-            message = 'Nice'
+            message = get_dustey_phrase()
 
             return slackbot.post_message(channel, message, as_user=False)
 

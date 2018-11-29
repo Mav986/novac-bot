@@ -30,11 +30,27 @@ EIGHTBALL_INVALID_QUESTION = [
     'I\'m an 8ball, not a translator.'
 ]
 
+
+DOOSTER_PHRASES = [
+    'Nice',
+    'Get lit',
+    ':350:',
+    'What happened?',
+    'P gud p gud',
+    'Tama. Tama tama tama. Tama?',
+    'Sorry for feed',
+    'Mhm'
+]
+
+
 K162ERROR = "_Have you become trapped?_ :ghost:"
+
+
 WORMHOLE_ATTR = "*{wormhole_id}* leads to _{leads_to}_\n" \
                 "*Size*: {jump_mass}\n" \
                 "*Total Mass*: {total_mass} kg\n" \
                 "*Lifetime*: {lifetime}h"
+
 
 JUMP_MASS_CATEGORIES = {
     5000000: "Small",
