@@ -22,7 +22,7 @@ class MiscBot:
 
         @slackbot.command('dooster', help='Ask the Dooster a question! {}'.format(NICE_USAGE))
         def dooster(channel, arg, user):
-            slackbot.set_personality('U6VJLPC1G')
+            slackbot.mimic_user('U6VJLPC1G')
             message = get_dustey_phrase()
 
             return slackbot.post_message(channel, message, as_user=False)
