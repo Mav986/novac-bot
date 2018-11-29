@@ -18,8 +18,7 @@ def submit_srp(name, url, submitted_by, extra=None):
 
 
 def valid_lossmail(url):
-    request = requests.get(url)
-    if LOSS_FORMAT in url and request.status_code == 200:
+    if LOSS_FORMAT in url and requests.get(url).status_code == 200:
         return True
     else:
         return False
