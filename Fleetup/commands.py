@@ -5,12 +5,12 @@ class FleetupBot:
     def __init__(self, slackbot):
 
         @slackbot.command('doctrines', help='Show all available doctrines')
-        def doctrines(channel, arg):
+        def doctrines(channel, arg, user):
             all_doctrines = fleetup.get_doctrines()
             slackbot.post_message(channel, '\n'.join(all_doctrines.keys()))
 
         @slackbot.command('doctrine', help='Show fitting names for a doctrine. Usage: *doctrine _name_*')
-        def doctrine(channel, arg):
+        def doctrine(channel, arg, user):
             if arg:
                 message, doctrine_fittings = fleetup.get_fittings(doctrine=arg)
                 message = '\n'.join([message] + list(doctrine_fittings.keys()))
@@ -20,7 +20,7 @@ class FleetupBot:
             return slackbot.post_message(channel, message)
 
         @slackbot.command('fittings', help='Show all available fittings')
-        def fittings(channel, arg):
+        def fittings(channel, arg, user):
             all_fittings = fleetup.get_fittings()
             if arg:
                 filtered = [f for f in all_fittings.keys() if all(w in f.lower() for w in arg.lower().split())]
@@ -34,7 +34,7 @@ class FleetupBot:
             return slackbot.post_message(channel, message)
 
         @slackbot.command('fitting', help='Show fitting details. Usage: *fitting _name_*')
-        def fitting(channel, arg):
+        def fitting(channel, arg, user):
             if arg:
                 fitting_details = fleetup.get_fitting(arg)
                 message = fitting_details
