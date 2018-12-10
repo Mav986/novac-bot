@@ -1,5 +1,5 @@
 from Miscellaneous.config import *
-from Miscellaneous.controller import get_xkcd_url, get_dustey_phrase, get_wormhole_stats
+from Miscellaneous.controller import get_xkcd_url, get_dustey_phrase, get_wormhole_stats, get_server_status
 import random
 
 
@@ -27,7 +27,7 @@ class MiscBot:
 
             return slackbot.post_message(channel, message, as_user=False)
 
-         
+
         @slackbot.command('8ball', help='Need an answer to a yes or no question quickly? {}'.format(EIGHTBALL_USAGE))
         def eightball(channel, arg, user):
             if arg.endswith('?'):
@@ -56,3 +56,14 @@ class MiscBot:
                 message = "Must supply wormhole ID {}".format(WH_USAGE)
 
             return slackbot.post_message(channel, message)
+
+        @slackbot.command('status', help="EVE Server status. {}".format(STATUS_USAGE))
+        def status(channel, arg, user):
+            if arg == 'sisi':
+                result = get_server_status('singularity')
+            else:
+                result = get_server_status()
+
+            print(result)
+
+            return slackbot.post_message(channel, '', attachments=[result])

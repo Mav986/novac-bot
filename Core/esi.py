@@ -128,6 +128,19 @@ def get_sell_orders(types, region_id=10000002):
     return results_json
 
 
+def get_status(datasource='tranquility'):
+    op = esiapp.op['get_status'](datasource=datasource)
+
+    result = esiclient.request(op)
+
+    if result.status == 200:
+        return json.loads(result.raw.decode('utf-8'))
+    elif result.status == 503:
+        return "offline"
+    else:
+        return "indeterminate"
+
+
 def _check_result(result):
     """
     Check if an ESI result is valid
