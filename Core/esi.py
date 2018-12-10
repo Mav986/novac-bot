@@ -133,7 +133,12 @@ def get_status(datasource='tranquility'):
 
     result = esiclient.request(op)
 
-    return _check_result(result)
+    if result.status == 200:
+        return json.loads(result.raw.decode('utf-8'))
+    elif result.status == 503:
+        return "offline"
+    else:
+        return "indeterminate"
 
 
 def _check_result(result):

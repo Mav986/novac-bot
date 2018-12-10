@@ -56,52 +56,6 @@ def get_wormhole_stats(id):
         return wh_info
 
 
-def get_server_status(datasource='tranquility'):
-    """Generate a reply describing the status of an EVE server/datasource."""
-
-    response = esi.get_status(datasource)
-    server_name = datasource.capitalize()
-
-    vip = response.get("vip")
-    started = datetime.strptime(response["start_time"], "%Y-%m-%dT%H:%M:%SZ")
-    attachment = {
-        "color": "warning" if vip else "good",
-        "title": "{} status".format(server_name),
-        "fields": [
-            {
-                "title": "Players online",
-                "value": "{:,}".format(response["players"]),
-                "short": True
-            },
-            {
-                "title": "Server time",
-                "value": datetime.strftime(datetime.utcnow(), "%Y-%m-%d %H:%M:%S"),
-                "short": True,
-            },
-            {
-                "title": "Started at",
-                "value": datetime.strftime(started, "%Y-%m-%d %H:%M:%S"),
-                "short": True,
-            },
-            {
-                "title": "Running for",
-                "value": _running_for(started),
-                "short": True,
-            },
-        ],
-        "fallback": "{} status: {:,} online, started at {}{}".format(
-            server_name,
-            response["players"],
-            datetime.strftime(started, "%Y-%m-%d %H:%M:%S"),
-            ", in VIP" * int(vip is True),
-        ),
-    }
-    if vip:
-        attachment["fields"].insert(0, {"title": "In VIP mode"})
-
-    return attachment
-
-
 def _running_for(start_time):
     running_for = int((datetime.utcnow() - start_time).total_seconds())
     if running_for < 60:
@@ -119,3 +73,79 @@ def _running_for(start_time):
             "s" * (number != 1)
         ))
     return ", ".join(running_for_list)
+
+
+def get_server_status(datasource='tranquility'):
+    """Generate a reply describing the status of an EVE server/datasource."""
+
+    response = esi.get_status(datasource)
+    server_name = datasource.capitalize()
+
+    if response == "offline":
+        attachment = {
+            "color": "danger",
+            "title": "{} status".format(server_name),
+            "text": "Offline",
+            "fields": [
+                {
+                    "title": "Server time",
+                    "value": datetime.strftime(datetime.utcnow(), "%Y-%m-%d %H:%M:%S"),
+                    "short": True,
+                },
+            ],
+            "fallback": "{} status: Offline".format(server_name)
+        }
+    elif response == "indeterminate":
+        indeterminate = "Cannot determine server status. It might be offline, or experiencing connectivity issues."
+        attachment = {
+            "color": "danger",
+            "title": "{} status".format(server_name),
+            "text": indeterminate,
+            "fields": [
+                {
+                    "title": "Server time",
+                    "value": datetime.strftime(datetime.utcnow(), "%Y-%m-%d %H:%M:%S"),
+                    "short": True,
+                },
+            ],
+            "fallback": "{} status: {}".format(server_name, indeterminate)
+        }
+    else:
+        vip = response.get("vip")
+        started = datetime.strptime(response["start_time"], "%Y-%m-%dT%H:%M:%SZ")
+        attachment = {
+            "color": "warning" if vip else "good",
+            "title": "{} status".format(server_name),
+            "fields": [
+                {
+                    "title": "Players online",
+                    "value": "{:,}".format(response["players"]),
+                    "short": True
+                },
+                {
+                    "title": "Server time",
+                    "value": datetime.strftime(datetime.utcnow(), "%Y-%m-%d %H:%M:%S"),
+                    "short": True,
+                },
+                {
+                    "title": "Started at",
+                    "value": datetime.strftime(started, "%Y-%m-%d %H:%M:%S"),
+                    "short": True,
+                },
+                {
+                    "title": "Running for",
+                    "value": _running_for(started),
+                    "short": True,
+                },
+            ],
+            "fallback": "{} status: {:,} online, started at {}{}".format(
+                server_name,
+                response["players"],
+                datetime.strftime(started, "%Y-%m-%d %H:%M:%S"),
+                ", in VIP" * int(vip is True),
+            ),
+        }
+        if vip:
+            attachment["fields"].insert(0, {"title": "In VIP mode"})
+
+    return attachment

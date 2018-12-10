@@ -58,7 +58,7 @@ class MiscBot:
             return slackbot.post_message(channel, message)
 
         @slackbot.command('status', help="EVE Server status. {}".format(STATUS_USAGE))
-        def status(channel, arg):
+        def status(channel, arg, user):
             if arg == 'sisi':
                 result = get_server_status('singularity')
             else:
