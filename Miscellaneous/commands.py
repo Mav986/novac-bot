@@ -45,11 +45,20 @@ class MiscBot:
                     message = K162ERROR
                 else:
                     wh_info = get_wormhole_stats(wormhole_id)
-                    if wh_info:
-                        message = WORMHOLE_ATTR.format(wormhole_id=wormhole_id, leads_to=wh_info["leadsTo"],
-                                                       jump_mass=wh_info["jumpMass"],
-                                                       total_mass=wh_info["totalMass"],
-                                                       lifetime=wh_info["maxLifetime"])
+                    if wh_info and wh_info.get('regen_mass') == 0:
+                        message = WORMHOLE_ATTR.format(
+                            wormhole_id=wormhole_id, leads_to=wh_info.get('leads_to'),
+                            jump_mass=wh_info.get('jump_mass'),
+                            total_mass=wh_info.get('total_mass'),
+                            lifetime=wh_info.get('lifetime'))
+
+                    elif wh_info and wh_info.get('regen_mass') > 0:
+                        message = WORMHOLE_ATTR_REGEN.format(
+                            wormhole_id=wormhole_id, leads_to=wh_info.get('leads_to'),
+                            jump_mass=wh_info.get('jump_mass'),
+                            total_mass=wh_info.get('total_mass'),
+                            regenMass=wh_info.get('regen_mass'),
+                            lifetime=wh_info.get('lifetime'))
                     else:
                         message = "Wormhole type not found"
             else:

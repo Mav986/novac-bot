@@ -2,8 +2,9 @@ from datetime import datetime
 from Core import esi
 import random
 import requests
-from Miscellaneous.config import DOOSTER_PHRASES, JUMP_MASS_CATEGORIES
+from Miscellaneous.config import DOOSTER_PHRASES, JUMP_MASS_CATEGORIES, DESTINATION_CATEGORIES
 from Miscellaneous.wormhole_data import WORMHOLE_IDS
+from Core.esi import get_type
 
 
 def get_xkcd_url(arg):
@@ -27,14 +28,15 @@ def get_dustey_phrase():
     return random.choice(DOOSTER_PHRASES)
 
 
-def _get_jumpable_mass(jump_mass):
+def _get_dogma_value(wh_data, key):
     """
-    Get a string representing the jumpable mass of a wormhole
-    :param jump_mass: a comma-separated string representing an integer (eg. 1,000,000)
-    :return: a short string representation of the jumpable mass
+    Find a dictionary identified by a key, in a list of dictionaries
+    :param wh_data: the dictionary to search
+    :param key: the key to identify the correct dictionary
+    :return: the value in the correct dictionary
     """
-    mass = jump_mass.replace(',', '')
-    return JUMP_MASS_CATEGORIES.get(int(mass))
+    dogma_attr = wh_data.get('dogma_attributes')
+    return next(element for element in dogma_attr if element.get('attribute_id') == key).get('value')
 
 
 def get_wormhole_stats(id):
@@ -43,17 +45,21 @@ def get_wormhole_stats(id):
     :param id: 4 character wormhole id
     :return: dict containing the relevant wormhole attributes
     """
-    if id in WORMHOLE_IDS:
-        wh = WORMHOLE_IDS[id]
-        jumpable_mass = _get_jumpable_mass(wh["jumpMass"])
-        wh_info = {
-            "leadsTo": wh["leadsTo"],
-            "jumpMass": jumpable_mass,
-            "totalMass": wh["totalMass"],
-            "maxLifetime": str(wh["maxLifetime"])
-        }
+    for wormhole in WORMHOLE_IDS:
+        if id in wormhole.get('name'):
+            wh_data = get_type(wormhole.get('id'))
 
-        return wh_info
+            leads_to = _get_dogma_value(wh_data, 1381)
+            lifetime = _get_dogma_value(wh_data, 1382)
+            total_mass = _get_dogma_value(wh_data, 1383)
+            regen_mass = _get_dogma_value(wh_data, 1384)
+            jump_mass = _get_dogma_value(wh_data, 1385)
+
+            return {'leads_to': DESTINATION_CATEGORIES.get(leads_to),
+                    'lifetime': int(lifetime / 60),
+                    'total_mass': int(total_mass),
+                    'regen_mass': int(regen_mass),
+                    'jump_mass': JUMP_MASS_CATEGORIES.get(jump_mass)}
 
 
 def _running_for(start_time):
