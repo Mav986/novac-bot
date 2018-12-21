@@ -31,7 +31,8 @@ def get_id(name, category):
     """
     if len(name) > 2:
         response = search(name, (category), True)
-        return response.get(category, [])[0]
+        if response:
+            return response.get(category, [])[0]
 
     return None
 
