@@ -1,8 +1,11 @@
 from datetime import datetime
+
+import discord
+
 from Core import esi
 import random
 import requests
-from Miscellaneous.config import DOOSTER_PHRASES, JUMP_MASS_CATEGORIES, DESTINATION_CATEGORIES
+from Miscellaneous.config import DOOSTER_PHRASES, JUMP_MASS_CATEGORIES, DESTINATION_CATEGORIES, COLOR
 from Miscellaneous.wormhole_data import WORMHOLE_IDS
 from Core.esi import get_type
 
@@ -82,76 +85,47 @@ def _running_for(start_time):
 
 
 def get_server_status(datasource='tranquility'):
-    """Generate a reply describing the status of an EVE server/datasource."""
+    """Generate a discord embed describing the status of an EVE server/datasource."""
 
     response = esi.get_status(datasource)
     server_name = datasource.capitalize()
 
-    if response == "offline":
-        attachment = {
-            "color": "danger",
-            "title": "{} status".format(server_name),
-            "text": "Offline",
-            "fields": [
-                {
-                    "title": "Server time",
-                    "value": datetime.strftime(datetime.utcnow(), "%Y-%m-%d %H:%M:%S"),
-                    "short": True,
-                },
-            ],
-            "fallback": "{} status: Offline".format(server_name)
-        }
-    elif response == "indeterminate":
-        indeterminate = "Cannot determine server status. It might be offline, or experiencing connectivity issues."
-        attachment = {
-            "color": "danger",
-            "title": "{} status".format(server_name),
-            "text": indeterminate,
-            "fields": [
-                {
-                    "title": "Server time",
-                    "value": datetime.strftime(datetime.utcnow(), "%Y-%m-%d %H:%M:%S"),
-                    "short": True,
-                },
-            ],
-            "fallback": "{} status: {}".format(server_name, indeterminate)
-        }
+    if response == "offline" or response == "indeterminate":
+
+        attachment = discord.Embed(
+            title="{}: {}".format(server_name, response.capitalize()),
+            color=COLOR.RED,
+        ).add_field(
+            name="Server time",
+            value=datetime.strftime(datetime.utcnow(), "%Y-%m-%d %H:%M:%S")
+        )
+
     else:
         vip = response.get("vip")
         started = datetime.strptime(response["start_time"], "%Y-%m-%dT%H:%M:%SZ")
-        attachment = {
-            "color": "warning" if vip else "good",
-            "title": "{} status".format(server_name),
-            "fields": [
-                {
-                    "title": "Players online",
-                    "value": "{:,}".format(response["players"]),
-                    "short": True
-                },
-                {
-                    "title": "Server time",
-                    "value": datetime.strftime(datetime.utcnow(), "%Y-%m-%d %H:%M:%S"),
-                    "short": True,
-                },
-                {
-                    "title": "Started at",
-                    "value": datetime.strftime(started, "%Y-%m-%d %H:%M:%S"),
-                    "short": True,
-                },
-                {
-                    "title": "Running for",
-                    "value": _running_for(started),
-                    "short": True,
-                },
-            ],
-            "fallback": "{} status: {:,} online, started at {}{}".format(
-                server_name,
-                response["players"],
-                datetime.strftime(started, "%Y-%m-%d %H:%M:%S"),
-                ", in VIP" * int(vip is True),
-            ),
-        }
+
+        attachment = discord.Embed(
+            title="{}: Online".format(server_name),
+            color=COLOR.ORANGE if vip else COLOR.GREEN,
+        ).add_field(
+            name="Server time",
+            value=datetime.strftime(datetime.utcnow(), "%Y-%m-%d %H:%M:%S"),
+            inline=False
+        ).add_field(
+            name="Players online",
+            value="{:,}".format(response["players"]),
+            inline=False
+        ).add_field(
+            name="Started at",
+            value=datetime.strftime(started, "%Y-%m-%d %H:%M:%S"),
+            inline=False
+        ).add_field(
+            name="Running for",
+            value=_running_for(started),
+            inline=False
+        )
+
         if vip:
-            attachment["fields"].insert(0, {"title": "In VIP mode"})
+            attachment.title = "{}: In VIP mode".format(server_name)
 
     return attachment

@@ -30,7 +30,7 @@ def get_id(name, category):
     :return: either a json object containing the something id or None
     """
     if len(name) > 2:
-        response = search(name, (category), True)
+        response = search(name, category, True)
         return response.get(category, [])[0]
 
     return None
@@ -81,12 +81,12 @@ def search_type(name):
     :param name: Search string
     :return: List of matching typeIDs
     """
-    result = search(name, categories=('inventory_type'))
+    result = search(name, categories='inventory_type')
 
     return result.get('inventory_type', [])
 
 
-def search(search, categories=('inventory_type'), strict=False):
+def search(search, categories='inventory_type', strict=False):
     """
     Search EVE entities
     :param search: Term to search for

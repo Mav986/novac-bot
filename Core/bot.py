@@ -1,10 +1,9 @@
 import logging
 import sys
 
-from slackclient import SlackClient
-
-from Core._config import SLACK_BOT_TOKEN
-from Core.slack import Slackbot
+from Core._config import TOKEN
+from Core.discord import DiscordBot
+from discord.ext import commands
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -22,33 +21,33 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 # create the bot instance
-slack = SlackClient(SLACK_BOT_TOKEN)
-slackbot = Slackbot(slack_client=slack, logger=logger)
+client = commands.Bot(command_prefix='!')
+bot = DiscordBot(client=client, logger=logger)
 
 
-@slackbot.command('ping', help='Check boss presence')
-def ping(channel, arg, user):
+@bot.command('ping', help='Check boss presence')
+async def ping(channel, arg, user):
     if arg:
         message = arg
     elif not arg:
-        message = slackbot.personality_message("ping", "Pong")
+        message = 'Pong'
     else:
         message = 'Mentions are not a valid parameter.'
 
-    return slackbot.post_message(channel, message)
+    return await bot.post_message(channel, message)
 
 
-@slackbot.command('help', help='Shows list of supported commands.', aliases=['halp'])
-def help(channel, arg, user):
+@bot.command('help', help='Shows list of supported commands.', aliases=['halp'])
+async def help(channel, arg, user):
     if arg is None:
         message = 'Supported commands: *{}*.\n*help _command_* for detailed help.'.format(
-            ', '.join(slackbot._commands.keys()))
-    elif arg in slackbot._command_help:
-        message = slackbot._command_help[arg]
+            ', '.join(bot._commands.keys()))
+    elif arg in bot._command_help:
+        message = bot._command_help[arg]
     else:
         message = 'No help entry found for {}'.format(arg)
 
-    return slackbot.post_message(channel, message)
+    return await bot.post_message(channel, message)
 
 
 if __name__ == '__main__':
@@ -58,10 +57,10 @@ if __name__ == '__main__':
     from Fleetup.commands import FleetupBot
     from Corp.commands import CorpBot
 
-    nav_commands = NavBot(slackbot)
-    misc_commands = MiscBot(slackbot)
-    market_commands = MarketBot(slackbot)
-    fleetup_commands = FleetupBot(slackbot)
-    corp_commands = CorpBot(slackbot)
+    nav_commands = NavBot(bot)
+    misc_commands = MiscBot(bot)
+    market_commands = MarketBot(bot)
+    fleetup_commands = FleetupBot(bot)
+    corp_commands = CorpBot(bot)
 
-    slackbot.run()
+    bot.run(TOKEN)

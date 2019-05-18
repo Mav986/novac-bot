@@ -6,11 +6,10 @@ from Navigation.controller import get_dotlan_map, get_jump_dist
 
 
 class NavBot:
-    def __init__(self, slackbot):
+    def __init__(self, bot):
 
-        @slackbot.command('distance', help='Show distance between 2 systems. {}'.format(DIST_USAGE), aliases=['range'])
-        def distance(channel, arg, user):
-            slackbot.set_typing(channel)
+        @bot.command('distance', help='Show distance between 2 systems. {}'.format(DIST_USAGE), aliases=['range'])
+        async def distance(channel, arg, user):
             if arg:
                 args = arg.split(' ', 1)
                 if len(args) == 2:
@@ -26,12 +25,11 @@ class NavBot:
             else:
                 message = 'Invalid number of systems. {}'.format(DIST_USAGE)
 
-            return slackbot.post_message(channel, message)
+            return await bot.post_message(channel, message)
 
-        @slackbot.command('rangemap', help='Get a dotlan map showing all locations in jump range from a system. '
+        @bot.command('rangemap', help='Get a dotlan map showing all locations in jump range from a system. '
                                            '{}'.format(RANGE_USAGE))
-        def rangemap(channel, arg, user):
-            slackbot.set_typing(channel)
+        async def rangemap(channel, arg, user):
             if arg:
                 args = arg.split(' ', -1)
                 if len(args):
@@ -47,4 +45,4 @@ class NavBot:
             else:
                 message = 'Invalid number of arguments. {}'.format(RANGE_USAGE)
 
-            return slackbot.post_message(channel, message)
+            return await bot.post_message(channel, message)
