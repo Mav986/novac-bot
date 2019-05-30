@@ -2,7 +2,7 @@ import logging
 import sys
 
 from Core._config import TOKEN
-from Core.discord import DiscordBot
+from Core.discord_bot import DiscordBot
 from discord.ext import commands
 
 logger = logging.getLogger(__name__)
@@ -50,6 +50,7 @@ async def help(channel, arg, user):
     return await bot.post_message(channel, message)
 
 
+# TODO Refactor all commands to take a context argument rather than separate channel, args, user arguments
 if __name__ == '__main__':
     from Navigation.commands import NavBot
     from Miscellaneous.commands import MiscBot
