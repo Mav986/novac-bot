@@ -27,12 +27,12 @@ bot = DiscordBot(client=client, logger=logger)
 
 @bot.command('ping', help='Check boss presence')
 async def ping(channel, arg, user):
-    if arg:
+    if arg and '@' not in arg:
         message = arg
     elif not arg:
         message = 'Pong'
     else:
-        message = 'Mentions are not a valid parameter.'
+        message = user.mention
 
     return await bot.post_message(channel, message)
 
