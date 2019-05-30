@@ -72,8 +72,8 @@ class DiscordBot:
             command_function = self._commands.get(self._aliases.get(command, ''))
         if command_function:
             self._logger.info('Received command %s with arg %s in channel %s from %s', command, arg, channel, user)
-            async with channel.typing():
-                return await command_function(channel, arg, user)
+            await channel.trigger_typing()
+            return await command_function(channel, arg, user)
         else:
             self._logger.info('Received invalid command %s', command)
             message = 'Command "{}" not recognized. `help` to show supported commands.'.format(command)
