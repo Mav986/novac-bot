@@ -18,10 +18,6 @@ class NavBot:
                         message = args[0].upper() + ' to ' + args[1].upper() + ': ' + '{:,.2f}ly'.format(dist)
                     else:
                         message = 'Invalid arguments. {}'.format(DIST_USAGE)
-                elif not len(args) == 2:
-                    message = 'Invalid number of systems. {}'.format(DIST_USAGE)
-                else:
-                    message = 'Mentions are not a valid parameter.'
             else:
                 message = 'Invalid number of systems. {}'.format(DIST_USAGE)
 
@@ -32,16 +28,12 @@ class NavBot:
         async def rangemap(channel, arg, user):
             if arg:
                 args = arg.split(' ', -1)
-                if len(args):
+                if len(args) == 3:
                     url = get_dotlan_map(args)
                     if url:
                         message = url
                     else:
                         message = 'Invalid arguments. {}'.format(RANGE_USAGE)
-                elif not len(args) == 3:
-                    message = 'Invalid number of arguments. {}'.format(RANGE_USAGE)
-                else:
-                    message = 'Mentions are not a valid parameter.'
             else:
                 message = 'Invalid number of arguments. {}'.format(RANGE_USAGE)
 
