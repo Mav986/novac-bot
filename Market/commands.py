@@ -11,11 +11,10 @@ hubs = [
 
 
 class MarketBot:
-    def __init__(self, slackbot):
+    def __init__(self, bot):
 
-        @slackbot.command('price', help='Get lowest sell price in Jita 4-4')
-        def price(channel, arg, user):
-            slackbot.set_typing(channel)
+        @bot.command('price', help='Get lowest sell price in Jita 4-4')
+        async def price(channel, arg, user):
             if arg:
                 types = []
                 for type in arg.splitlines():
@@ -36,11 +35,10 @@ class MarketBot:
             else:
                 message = 'No query supplied. Usage: *price _item(s)_*'
 
-            return slackbot.post_message(channel, message)
+            return await bot.post_message(channel, message)
 
-        @slackbot.command('pricehub', help='Get Prices in market hubs')
-        def pricehub(channel, arg, user):
-            slackbot.set_typing(channel)
+        @bot.command('pricehub', help='Get Prices in market hubs')
+        async def pricehub(channel, arg, user):
             if arg:
                 types = []
 
@@ -71,7 +69,7 @@ class MarketBot:
             else:
                 message = 'No query supplied. Usage: *pricehub _item(s)_*'
 
-            return slackbot.post_message(channel, message)
+            return await bot.post_message(channel, message)
 
         def filter_types(search, name):
             blacklist = ['Blueprint', 'SKIN', 'Issue']

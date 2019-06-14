@@ -5,6 +5,12 @@ EIGHTBALL_USAGE = 'Usage: *!8ball [question]?*'
 STATUS_USAGE = 'Usage: !status or !status sisi'
 WH_USAGE = 'Usage: *!wh X###* eg. !wh H296'
 
+# Color codes: discord_bot.py requires an inbuilt 'discord.Color' object, or an int
+class COLOR:
+    GREEN = 0x00ff00
+    ORANGE = 0xff7c00
+    RED = 0xff0000
+
 # MISC
 EIGHTBALL_VALID_QUESTION = [
     'It is certain.',
