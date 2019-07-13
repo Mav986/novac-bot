@@ -75,13 +75,13 @@ def get_system_info(system_name):
     return None
 
 
-def search_type(name):
+def search_type(name, strict=False):
     """
     Search item types
     :param name: Search string
     :return: List of matching typeIDs
     """
-    result = search(name, categories='inventory_type')
+    result = search(name, categories='inventory_type', strict=strict)
 
     return result.get('inventory_type', [])
 
