@@ -55,13 +55,11 @@ if __name__ == '__main__':
     from Navigation.commands import NavBot
     from Miscellaneous.commands import MiscBot
     from Market.commands import MarketBot
-    from Fleetup.commands import FleetupBot
     from Corp.commands import CorpBot
 
     nav_commands = NavBot(bot)
     misc_commands = MiscBot(bot)
     market_commands = MarketBot(bot)
-    fleetup_commands = FleetupBot(bot)
     corp_commands = CorpBot(bot)
 
     bot.run(TOKEN)

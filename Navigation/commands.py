@@ -18,6 +18,8 @@ class NavBot:
                         message = args[0].upper() + ' to ' + args[1].upper() + ': ' + '{:,.2f}ly'.format(dist)
                     else:
                         message = 'Invalid arguments. {}'.format(DIST_USAGE)
+                else:
+                    message = 'Invalid number of arguments. {}'.format(DIST_USAGE)
             else:
                 message = 'Invalid number of systems. {}'.format(DIST_USAGE)
 
@@ -34,6 +36,8 @@ class NavBot:
                         message = url
                     else:
                         message = 'Invalid arguments. {}'.format(RANGE_USAGE)
+                else:
+                    message = 'Invalid number of arguments. {}'.format(DIST_USAGE)
             else:
                 message = 'Invalid number of arguments. {}'.format(RANGE_USAGE)
 
