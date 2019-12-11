@@ -17,10 +17,13 @@ class MarketBot:
         async def price(channel, arg, user):
             if arg:
                 types = []
+                strict = False
                 for type in arg.splitlines():
                     if len(type) < 3:
                         continue
-                    types.extend(esi.search_type(type))
+                    if type.startswith('"') and type.endswith('"'):
+                        strict = True
+                    types.extend(esi.search_type(type, strict=strict))
                 if len(types) > 50:
                     message = 'Too many possible matches ({}). Aborting.'.format(len(types))
                 elif len(types) > 0:
@@ -41,11 +44,14 @@ class MarketBot:
         async def pricehub(channel, arg, user):
             if arg:
                 types = []
+                strict = False
 
                 for type in arg.splitlines():
                     if len(type) < 3:
                         continue
-                    types.extend(esi.search_type(type) or [])
+                    if type.startswith('"') and type.endswith('"'):
+                        strict = True
+                    types.extend(esi.search_type(type, strict=strict) or [])
                 if len(types) > 50:
                     message = 'Too many possible matches ({}). Aborting.'.format(len(types))
                 elif len(types) > 0:
